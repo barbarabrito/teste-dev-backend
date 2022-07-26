@@ -61,20 +61,25 @@ const getCustomerById = async (req, res) => {
 }
 
 const sumOfDegrees = async (req, res) => {
-    let customersList = [];
+    let addScoreToCustomers = '';
     let customers = await Customer.aggregate([
-
         {
             $project: {
                 "_id": "$_id",
                 "name": "$name",
-                sd: {$sum: "$healthIssues.degree"}
+                sd: {$sum: "$healthIssues.degree"},
+                // score: {$sum: "$healthIssues.degree"}
             }
         },
         { $sort: {sd: -1 } },
         { $limit: 10 }
     ])
-    res.json(customers);
+    addScoreToCustomers = customers;
+    for (let i = 0; i < customers.length; i++){
+        let score = (1 / (1 + 2.71-(-2.8 + customers[i].sd ))) * 100
+        addScoreToCustomers[i].score = score
+    }
+    res.json(customers)
 }
 
 module.exports = {
