@@ -67,19 +67,22 @@ const sumOfDegrees = async (req, res) => {
             $project: {
                 "_id": "$_id",
                 "name": "$name",
-                sd: {$sum: "$healthIssues.degree"},
-                // score: {$sum: "$healthIssues.degree"}
+                "sex": "$sex",
+                "healthIssues": "$healthIssues",
+                sumOfDegrees: {$sum: "$healthIssues.degree"}
             }
         },
-        { $sort: {sd: -1 } },
+        { $sort: {sumOfDegrees: -1 } },
         { $limit: 10 }
     ])
+    
     addScoreToCustomers = customers;
+
     for (let i = 0; i < customers.length; i++){
-        let score = (1 / (1 + 2.71-(-2.8 + customers[i].sd ))) * 100
-        addScoreToCustomers[i].score = score
+        let score = (1 / (1 + 2.71-(-2.8 + customers[i].sumOfDegrees ))) * 100;
+        addScoreToCustomers[i].score = score;
     }
-    res.json(customers)
+    res.json(addScoreToCustomers);
 }
 
 module.exports = {
