@@ -47,8 +47,40 @@ const updateCustomer = async (req, res) => {
     }
 }
 
+const getCustomerById = async (req, res) => {
+
+    const id = req.params.id;
+    const customer = await Customer.findById(id);
+
+    if (!customer){
+        res.status(422).json('Not Found');
+        return
+    }
+
+    res.status(200).json({customer});
+}
+
+const sumOfDegrees = async (req, res) => {
+    let customersList = [];
+    let customers = await Customer.aggregate([
+
+        {
+            $project: {
+                "_id": "$_id",
+                "name": "$name",
+                sd: {$sum: "$healthIssues.degree"}
+            }
+        },
+        { $sort: {sd: -1 } },
+        { $limit: 10 }
+    ])
+    res.json(customers);
+}
+
 module.exports = {
     getAllCustomers,
     createCustomer,
-    updateCustomer
+    updateCustomer,
+    getCustomerById,
+    sumOfDegrees
 };
