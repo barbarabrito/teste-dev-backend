@@ -8,6 +8,6 @@ router.post('/customers', createCustomer);
 router.get('/customers', getAllCustomers);
 router.put('/customers/:id', updateCustomer);
 router.get('/customers/:id', getCustomerById);
-router.get('/higherrisk/customers', sumOfDegrees);
+router.get('/higher-risk/customers', sumOfDegrees);
 
 module.exports = router;
