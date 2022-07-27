@@ -61,10 +61,7 @@ const getCustomerById = async (req, res) => {
 }
 
 const sumOfDegrees = async (req, res) => {
-<<<<<<< HEAD
-=======
-    let addScoreToCustomers = '';
->>>>>>> d1551d97b2cc4e648457cd126b054cb655906560
+
     let customers = await Customer.aggregate([
         {
             $project: {
@@ -79,11 +76,7 @@ const sumOfDegrees = async (req, res) => {
         { $limit: 10 }
     ])
     
-<<<<<<< HEAD
     let addScoreToCustomers = customers;
-=======
-    addScoreToCustomers = customers;
->>>>>>> d1551d97b2cc4e648457cd126b054cb655906560
 
     for (let i = 0; i < customers.length; i++){
         let score = (1 / (1 + 2.71-(-2.8 + customers[i].sumOfDegrees ))) * 100;
