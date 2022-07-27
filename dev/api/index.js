@@ -10,4 +10,4 @@ app.get('/', (req, res) => {
 
 app.use(require('./routes/CustomerRoute'));
 
-app.listen(process.env.PORT || 5000);
+module.exports = app
