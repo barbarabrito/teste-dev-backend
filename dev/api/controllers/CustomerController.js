@@ -14,6 +14,32 @@ const createCustomer = async (req, res) => {
         healthIssues:healthIssues
     })
 
+    if (!name){
+        res.status(400).json('Customer\'s name is required');
+        return
+    }
+
+    if(!birthDate){
+        res.status(400).json('Customer\'s date of birth is required');
+        return
+    }
+
+    if(!sex){
+        res.status(400).json('Customer\'s sex is required');
+        return
+    }
+
+    if(healthIssues){
+
+        for (let i = 0; i < healthIssues.length; i++){
+            
+            if ( !((healthIssues[i].degree == 1) || (healthIssues[i].degree == 2))){
+                res.status(400).json('Health issues degree should only be 1 or 2');
+                return
+            }
+        }
+    }
+
     try{
         await customer.save();
         res.status(201).json('Customer created')
@@ -35,12 +61,23 @@ const getAllCustomers = async (req, res) => {
 }
 
 const updateCustomer = async (req, res) => {
-
+    
     const { id } = req.params;
     const newCustomer = req.body;
 
+    if(newCustomer.healthIssues){
+
+        for (let i = 0; i < newCustomer.healthIssues.length; i++){
+            
+            if ( !((newCustomer.healthIssues[i].degree == 1) || (newCustomer.healthIssues[i].degree == 2))){
+                res.status(400).json('Health issues degree should only be 1 or 2');
+                return
+            }
+        }
+    }
+
     try{
-        const result = await Customer.findByIdAndUpdate(id, newCustomer);
+        await Customer.findByIdAndUpdate(id, newCustomer);
         res.status(200).json(newCustomer);
     }catch(error){
         res.status(400).json(error);
@@ -53,7 +90,7 @@ const getCustomerById = async (req, res) => {
     const customer = await Customer.findById(id);
 
     if (!customer){
-        res.status(422).json('Not Found');
+        res.status(404).json('Not Found');
         return
     }
 
