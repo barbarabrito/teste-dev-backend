@@ -15,7 +15,7 @@ Para este desafio eu utilizei:
 
 ### Testes
 
-![preview tests](preview/tests.png)
+![preview tests](preview/tests-preview.png)
 
 ## Instruções para rodar o app localmente:
 
