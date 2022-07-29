@@ -39,3 +39,11 @@ npm start
 ```bash
 npm test
 ```
+
+## Endpoints da API
+
+- **POST /customers** - Criar um cliente
+- **GET /customers** - Listar todos os clientes
+- **GET /customers/higher-risk** - Listagem dos 10 clientes om maior risco de saúde
+- **PUT /customers/:id** - Atualizar um cliente
+- **GET /customers/:id** - Obter um cliente específi-co pelo id
